@@ -3,6 +3,7 @@ import invader
 import invaders
 import player
 import edge
+import projectile
 
 from pygame.locals import (
     K_SPACE,
@@ -21,6 +22,9 @@ left_edge = edge.Edge(0, 0, 5, invaders.SCREEN_HEIGHT)
 edges.add(left_edge)
 right_edge = edge.Edge(invaders.SCREEN_WIDTH - 5, 0, 5, invaders.SCREEN_HEIGHT)
 edges.add(right_edge)
+top_edge = edge.Edge(0, 0, invaders.SCREEN_WIDTH, 5)
+edges.add(top_edge)
+
 
 invaders = pygame.sprite.Group()
 for r in range(1, 10):
@@ -28,10 +32,14 @@ for r in range(1, 10):
     invaders.add(invader.Invader(3, r))
     invaders.add(invader.Invader(4, r))
 
+game_sprites = pygame.sprite.Group()
 player1 = player.Player(10, 4)
+game_sprites.add(player1)
 
 MOVE_ENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(MOVE_ENEMY, 150)
+
+player1_bullet = None
 
 # Run until the user asks to quit
 running = True
@@ -45,7 +53,13 @@ while running:
             invaders.update()
 
     pressed_keys = pygame.key.get_pressed()
-    player1.update(pressed_keys)
+    if pressed_keys[pygame.K_SPACE] and not game_sprites.has(player1_bullet):
+        player1_bullet = projectile.Projectile((player1.rect.left + 30, player1.rect.top-5))
+        game_sprites.add(player1_bullet)
+
+    # Updates
+    for gs in game_sprites:
+        gs.update(pressed_keys)
 
     hits = pygame.sprite.groupcollide(edges, invaders, False, False)
     if hits:
@@ -57,14 +71,16 @@ while running:
             for i in invaders:
                 i.send_left()
 
+    pygame.sprite.groupcollide(edges, game_sprites, False, True)
+    pygame.sprite.groupcollide(invaders, game_sprites, True, True)
 
-    # Fill the background with white
     screen.fill((0, 0, 0))
 
     for r in invaders:
         screen.blit(r.curr_frame, r.rect)
 
-    screen.blit(player1.curr_frame, player1.rect)
+    for gs in game_sprites:
+        screen.blit(gs.curr_frame, gs.rect)
 
     # Flip the display
     pygame.display.flip()

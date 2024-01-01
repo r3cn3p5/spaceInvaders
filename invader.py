@@ -45,9 +45,7 @@ class Invader(pygame.sprite.Sprite):
             self.frames.append(frame)
 
         self.rect = self.frames[0].get_rect(
-            topleft=(initialColumn * ((invaders.SCALE * w) + 10),
-                    initialRow * ((invaders.SCALE * h) + 10)
-            )
+            topleft=(initialColumn * ((invaders.SCALE * w) + 10), initialRow * ((invaders.SCALE * h) + 10))
         )
 
         self.curr_frame = self.frames[0]

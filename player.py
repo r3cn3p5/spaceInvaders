@@ -41,21 +41,19 @@ class Player(pygame.sprite.Sprite):
             self.frames.append(frame)
 
         self.rect = self.frames[0].get_rect(
-               topleft=(initialColumn * ((invaders.SCALE * w) + 10),
-                        initialRow * ((invaders.SCALE * h) + 10)
-                        )
+            topleft=(initialColumn * ((invaders.SCALE * w) + 10), initialRow * ((invaders.SCALE * h) + 10))
         )
 
         self.curr_frame = self.frames[0]
 
     def update(self, pressed_keys):
         if pressed_keys[K_LEFT]:
-               self.rect.move_ip(-1, 0)
+            self.rect.move_ip(-1, 0)
         if pressed_keys[K_RIGHT]:
-               self.rect.move_ip(1, 0)
+            self.rect.move_ip(1, 0)
 
         # Keep player on the screen
         if self.rect.left < 0:
-               self.rect.left = 0
+            self.rect.left = 0
         elif self.rect.right > invaders.SCREEN_WIDTH:
-               self.rect.right = invaders.SCREEN_WIDTH
+            self.rect.right = invaders.SCREEN_WIDTH

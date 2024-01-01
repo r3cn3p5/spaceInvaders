@@ -1,16 +1,14 @@
 import pygame
 import invaders
 
-fd1 = [[1, 1],
-       [1, 1],
-       [1, 1],
-       [1, 1],
-       [1, 1]]
+fd1 = [[1],
+       [1],
+       [1]]
 
 
-class Bullet(pygame.sprite.Sprite):
-    def __init__(self, initialRow, initialColumn):
-        super(Bullet, self).__init__()
+class Projectile(pygame.sprite.Sprite):
+    def __init__(self, initialTopLeft):
+        super(Projectile, self).__init__()
 
         frameData = [fd1]
 
@@ -32,12 +30,12 @@ class Bullet(pygame.sprite.Sprite):
                 x += invaders.SCALE
             self.frames.append(frame)
 
-        self.rect = self.frames[0].get_rect(
-               topleft=(initialColumn * ((invaders.SCALE * w) + 10),
-                        initialRow * ((invaders.SCALE * h) + 10)
-                        )
-        )
+        self.rect = self.frames[0].get_rect(topleft=initialTopLeft)
 
         self.curr_frame = self.frames[0]
+        self.speed = 2
 
 
+    def update(self, pressed_keys):
+
+        self.rect.move_ip(0, -self.speed)
