@@ -33,7 +33,7 @@ class Projectile(pygame.sprite.Sprite):
         self.rect = self.frames[0].get_rect(topleft=initialTopLeft)
 
         self.curr_frame = self.frames[0]
-        self.speed = 2
+        self.speed = 3
 
 
     def update(self, pressed_keys):

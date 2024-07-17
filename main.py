@@ -5,6 +5,16 @@ import player
 import edge
 import projectile
 
+
+def createInvaders():
+    new_invaders = pygame.sprite.Group()
+    for ran in range(1, 10):
+        new_invaders.add(invader.Invader(2, ran))
+        new_invaders.add(invader.Invader(3, ran))
+        new_invaders.add(invader.Invader(4, ran))
+    return new_invaders
+
+
 from pygame.locals import (
     K_SPACE,
     K_ESCAPE,
@@ -13,6 +23,8 @@ from pygame.locals import (
 )
 
 pygame.init()
+
+clock = pygame.time.Clock()
 
 # Set up the drawing window
 screen = pygame.display.set_mode([invaders.SCREEN_WIDTH, invaders.SCREEN_HEIGHT])
@@ -25,12 +37,7 @@ edges.add(right_edge)
 top_edge = edge.Edge(0, 0, invaders.SCREEN_WIDTH, 5)
 edges.add(top_edge)
 
-
-invaders = pygame.sprite.Group()
-for r in range(1, 10):
-    invaders.add(invader.Invader(2, r))
-    invaders.add(invader.Invader(3, r))
-    invaders.add(invader.Invader(4, r))
+invaders = createInvaders()
 
 game_sprites = pygame.sprite.Group()
 player1 = player.Player(10, 4)
@@ -85,5 +92,11 @@ while running:
     # Flip the display
     pygame.display.flip()
 
+    clock.tick(60)
+
 # Done! Time to quit.
 pygame.quit()
+
+
+
+
