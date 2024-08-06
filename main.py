@@ -9,6 +9,7 @@ import projectile
 def createInvaders():
     new_invaders = pygame.sprite.Group()
     for ran in range(1, 10):
+        new_invaders.add(invader.Invader(1, ran))
         new_invaders.add(invader.Invader(2, ran))
         new_invaders.add(invader.Invader(3, ran))
         new_invaders.add(invader.Invader(4, ran))
@@ -44,7 +45,7 @@ player1 = player.Player(10, 4)
 game_sprites.add(player1)
 
 MOVE_ENEMY = pygame.USEREVENT + 1
-pygame.time.set_timer(MOVE_ENEMY, 150)
+pygame.time.set_timer(MOVE_ENEMY, 250)
 
 player1_bullet = None
 
@@ -80,6 +81,7 @@ while running:
 
     pygame.sprite.groupcollide(edges, game_sprites, False, True)
     pygame.sprite.groupcollide(invaders, game_sprites, True, True)
+
 
     screen.fill((0, 0, 0))
 
